@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>About — PinkDrop</title>
+  <style>
+    :root{--pink:#ff5aa2;--accent:#ff77b3;--muted:#ffd2ea}
+    *{box-sizing:border-box}
+    body{font-family:Inter,system-ui,Arial;margin:0;background:linear-gradient(135deg,#fff #ffe8f5);color:#111;padding-top:64px;min-height:100vh}
+    
+    header{background:linear-gradient(90deg,var(--pink),var(--accent));color:#fff;padding:14px 12px;display:flex;align-items:center;justify-content:space-between;position:fixed;top:0;left:0;right:0;height:64px;z-index:120;box-shadow:0 6px 24px rgba(255,90,162,0.3)}
+    .brand{display:flex;gap:10px;align-items:center;font-weight:700;font-size:18px}
+    .logo-img{width:44px;height:44px;background:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--pink);font-weight:700;font-size:20px;animation:glowBounce 2.5s ease-in-out infinite}
+    
+    @keyframes glowBounce{0%,100%{box-shadow:0 0 12px rgba(255,90,162,0.4);transform:scale(1)}50%{box-shadow:0 0 24px rgba(255,90,162,0.8);transform:scale(1.05)}}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes shimmer{0%,100%{opacity:0.8}50%{opacity:1}}
+    @keyframes slideInRight{from{opacity:0;transform:translateX(50px)}to{opacity:1;transform:translateX(0)}}
+    
+    .container{max-width:800px;margin:0 auto;padding:20px 16px}
+    
+    .hero{text-align:center;margin-bottom:40px;animation:fadeInUp 1s ease-out}
+    .hero h1{font-size:42px;color:var(--pink);margin:0 0 12px 0;text-shadow:0 4px 12px rgba(255,90,162,0.2)}
+    .hero .subtitle{font-size:16px;color:#666;margin:0;letter-spacing:0.5px}
+    
+    .cards-grid{display:grid;grid-template-columns:1fr;gap:20px;margin-bottom:30px}
+    
+    .card{background:#fff;border-radius:14px;padding:24px;box-shadow:0 8px 24px rgba(255,90,162,0.1);border:2px solid transparent;transition:all 0.4s ease;animation:fadeInUp 1s ease-out;animation-fill-mode:both}
+    .card:nth-child(1){animation-delay:0.1s}
+    .card:nth-child(2){animation-delay:0.2s}
+    .card:nth-child(3){animation-delay:0.3s}
+    .card:nth-child(4){animation-delay:0.4s}
+    .card:nth-child(5){animation-delay:0.5s}
+    .card:nth-child(6){animation-delay:0.6s}
+    
+    .card:hover{transform:translateY(-8px);box-shadow:0 12px 36px rgba(255,90,162,0.25);border-color:var(--pink)}
+    
+    .card-icon{font-size:36px;margin-bottom:12px;display:inline-block;animation:shimmer 2s ease-in-out infinite}
+    .card h3{color:var(--pink);margin:12px 0 10px 0;font-size:20px}
+    .card p{margin:0;color:#666;line-height:1.6;font-size:14px}
+    
+    .highlight{color:var(--pink);font-weight:700}
+    
+    .social-section{background:#fff;border-radius:14px;padding:24px;text-align:center;margin-bottom:30px;box-shadow:0 8px 24px rgba(255,90,162,0.1);animation:slideInRight 1s ease-out 0.4s both}
+    .social-title{color:var(--pink);font-size:20px;font-weight:700;margin-bottom:16px}
+    .social-links{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+    .social-link{display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;background:linear-gradient(135deg,var(--pink),var(--accent));color:#fff;border-radius:50%;text-decoration:none;font-size:20px;transition:all 0.3s ease;box-shadow:0 4px 12px rgba(255,90,162,0.3)}
+    .social-link:hover{transform:scale(1.1) rotate(-5deg);box-shadow:0 8px 20px rgba(255,90,162,0.5)}
+    
+    .footer-link{text-align:center;margin-top:20px}
+    .footer-link a{color:var(--pink);text-decoration:none;font-weight:700;padding:10px 20px;border-radius:8px;display:inline-block;transition:all 0.3s ease;border:2px solid var(--pink)}
+    .footer-link a:hover{background:var(--pink);color:#fff}
+    
+    .small{font-size:13px;color:#999}
+    
+    @media(min-width:640px){
+      .cards-grid{grid-template-columns:repeat(2,1fr)}
+      .hero h1{font-size:48px}
+    }
+    @media(min-width:980px){
+      .cards-grid{grid-template-columns:repeat(3,1fr)}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <img src="rs.png" alt="RS Logo" style="width:44px;height:44px;border-radius:10px;object-fit:contain;animation:glowBounce 2.5s ease-in-out infinite"/>
+      <div>PinkDrop</div>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Hero Section -->
+    <div class="hero">
+      <h1>🎀 আমাদের গল্প</h1>
+      <p class="subtitle">বিশ্বমানের পণ্য, স্থানীয় সেবা</p>
+    </div>
+
+    <!-- Features Grid -->
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon">🌍</div>
+        <h3>বিশ্বব্যাপী পৌঁছানো</h3>
+        <p>আমরা <span class="highlight">৫০+ দেশে</span> পণ্য সরবরাহ করি। চাইনা থেকে আপনার দরজায় — দ্রুত এবং নিরাপদ।</p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">💎</div>
+        <h3>প্রিমিয়াম গুণমান</h3>
+        <p>প্রতিটি পণ্য যত্নসহকারে নির্বাচিত এবং পরীক্ষিত। আমরা শুধু সেরা অফার করি।</p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <h3>দ্রুত সেবা</h3>
+        <p><span class="highlight">৩-৬ দিনে</span> বেশিরভাগ অর্ডার পাঠানো হয়। সাশ্রয়ী শিপিং খরচ নিশ্চিত।</p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">💳</div>
+        <h3>নমনীয় পেমেন্ট</h3>
+        <p>bKash • Nagad • কার্ড • Binance Pay — আপনার পছন্দের মাধ্যমে পেমেন্ট করুন।</p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🛡️</div>
+        <h3>সম্পূর্ণ সুরক্ষা</h3>
+        <p>প্রতিটি লেনদেন নিরাপদ এবং যাচাইকৃত। আপনার তথ্য সুরক্ষিত থাকে।</p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🎯</div>
+        <h3>কাস্টমার প্রথম</h3>
+        <p>আপনার সন্তুষ্টি আমাদের লক্ষ্য। ২৪/৭ সাপোর্ট এবং সমাধান নিশ্চিত।</p>
+      </div>
+    </div>
+
+    <!-- Social & Contact Section -->
+    <div class="social-section">
+      <div class="social-title">সাহায্য প্রয়োজন? আমাদের সাথে যোগাযোগ করুন 💕</div>
+      <div class="social-links">
+        <a href="https://www.facebook.com/pinkdropofficial" target="_blank" class="social-link" title="Facebook">f</a>
+        <a href="https://wa.me/8801609166109" target="_blank" class="social-link" title="WhatsApp">💬</a>
+        <a href="mailto:support@pinkdrop.com" target="_blank" class="social-link" title="Email">✉️</a>
+      </div>
+      <p class="small" style="margin-top:16px">📞 WhatsApp: +880 160 916 6109</p>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer-link">
+      <a href="index.html">← হোমে ফিরুন</a>
+    </div>
+
+    <div style="text-align:center;margin-top:30px;padding:20px;color:#999;border-top:2px solid #ffe8f5">
+      <p style="font-size:12px;margin:0">
+        <span class="highlight">PinkDrop™</span> — আপনার বিশ্বস্ত অনলাইন শপিং পার্টনার<br>
+        <span style="color:#ff88c1">✨ মান, সেবা এবং ভালোবাসা দিয়ে পরিচালিত ✨</span>
+      </p>
+    </div>
+  </div>
+</body>
+</html>

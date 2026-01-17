@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PinkDrop — Worldwide Dropshipping</title>
+  <link rel="icon" href="data:,"><meta name="theme-color" content="#ff5aa2">
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script>
+    // Initialize Firebase if config is provided
+    if(window.FIREBASE_CONFIG && window.firebase){
+      try{ firebase.initializeApp(window.FIREBASE_CONFIG); }
+      catch(e){ console.warn('Firebase init warning:',e); }
+    }
+  </script>
+  <script src="app.js" defer></script>
+  <style>
+    :root{--pink:#ff5aa2;--accent:#ff77b3;--muted:#ffd2ea}
+    *{box-sizing:border-box}
+    body{margin:0;padding-top:64px;font-family:Inter,system-ui,Arial;background:linear-gradient(180deg,#fff #ffe8f5);color:#111}
+
+    header{background:linear-gradient(90deg,var(--pink),var(--accent));color:#fff;padding:14px 12px;display:flex;align-items:center;justify-content:space-between;position:fixed;top:0;left:0;right:0;height:64px;z-index:120}
+    .brand{display:flex;gap:10px;align-items:center}
+    .logo{width:44px;height:44px;background:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--pink);font-weight:700}
+    .title{font-weight:700}
+
+    .top-controls{display:flex;gap:8px;align-items:center}
+    /* Cart badge */
+    #cartBtn{position:relative;background:#fff;color:var(--pink);border:0;padding:8px 12px;border-radius:10px;cursor:pointer;font-size:18px;font-weight:700;text-decoration:none}
+    #cartBadge{position:absolute;top:-8px;right:-8px;background:#ff0000;color:#fff;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;display:none}
+    /* language selector: white background with pink labels for readability */
+    .lang{background:#fff;border:1px solid rgba(255,255,255,0.2);color:var(--pink);padding:6px 8px;border-radius:8px;font-weight:700}
+    .lang option{color:var(--pink) !important}
+    /* boxed nav links */
+    .nav-box{color:#fff;text-decoration:none;padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.06);display:inline-block}
+    .nav-box .lang-bn{display:none}
+    .search{margin:12px;padding:10px;border-radius:12px;border:2px solid #ff88c1;width:calc(100% - 24px);background:#fff8fe}
+
+    main{padding:12px}
+    .info-row{display:flex;gap:12px;margin-top:12px;margin-bottom:12px;position:sticky;top:64px;z-index:40}
+    .grid{display:grid;grid-template-columns:1fr;gap:12px}
+    .card{background:#fff;border-radius:12px;padding:10px;box-shadow:0 6px 18px rgba(0,0,0,0.06);display:flex;gap:12px;align-items:center;transition:transform .18s ease,box-shadow .18s ease;position:relative}
+    .card:hover{transform:translateY(-6px);box-shadow:0 8px 24px rgba(0,0,0,0.12), 0 0 24px rgba(255,106,170,0.5)}
+    .card:hover .hover-btn{opacity:1;transform:scale(1)}
+    .card img{width:84px;height:84px;object-fit:cover;border-radius:10px;cursor:pointer}
+    .hover-btn{position:absolute;right:12px;top:12px;width:32px;height:32px;background:#FFD700;border:0;border-radius:50%;cursor:pointer;opacity:0;transform:scale(0.8);transition:all .2s ease;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(255,215,0,0.4)}
+    .meta{flex:1}
+    .price{color:var(--pink);font-weight:700}
+    .btn{background:var(--pink);color:#fff;border:0;padding:8px 12px;border-radius:10px}
+
+    /* Modal order panel */
+    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.45);display:none;z-index:45}
+    #orderPanel{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(480px,94%);background:#fff;border-radius:12px;padding:14px;box-shadow:0 10px 40px rgba(0,0,0,0.2);display:none;z-index:50}
+    #orderPanel .small{color:#666}
+    /* Image viewer modal */
+    #imageViewerBackdrop{position:fixed;inset:0;background:rgba(0,0,0,0.8);display:none;z-index:70;cursor:zoom-out}
+    #imageViewer{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(600px,94vw);max-height:90vh;background:#fff;border-radius:12px;padding:20px;display:none;z-index:71;box-shadow:0 10px 40px rgba(0,0,0,0.3);overflow-y:auto}
+    #imageViewer img{width:100%;max-height:400px;object-fit:cover;border-radius:10px;margin-bottom:16px}
+    .viewer-content{display:flex;flex-direction:column;gap:12px}
+    .viewer-title{font-size:20px;font-weight:700;color:#111}
+    .viewer-details{color:#666;line-height:1.6}
+    .viewer-price{font-size:18px;font-weight:700;color:var(--pink);margin:8px 0}
+    .viewer-actions{display:flex;gap:8px;margin-top:12px}
+    .viewer-actions button{flex:1}
+
+    .floating-ws{position:fixed;right:16px;bottom:16px;background:#25D366;color:#fff;padding:12px;border-radius:50%;box-shadow:0 6px 18px rgba(0,0,0,0.12);text-decoration:none}
+
+    footer{padding:16px;text-align:center;color:#666}
+
+    @media(min-width:640px){ .grid{grid-template-columns:repeat(2,1fr)} }
+    @media(min-width:980px){ .grid{grid-template-columns:repeat(3,1fr)} }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <img src="rs.png" alt="RS Logo" style="width:44px;height:44px;border-radius:10px;object-fit:contain"/>
+      <div>
+        <div class="title">sudaratan <small style="display:block;font-weight:400">Worldwide</small></div>
+      </div>
+    </div>
+    <div class="top-controls">
+      <a id="navHome" href="index.html" class="small nav-box" style="color:#fff;"><span class="lang-en">Home</span><span class="lang-bn">হোম</span></a>
+      <a id="navServices" href="services.html" class="small nav-box" style="color:#fff;"><span class="lang-en">Services</span><span class="lang-bn">সেবা</span></a>
+      <a id="navAbout" href="about.html" class="small nav-box" style="color:#fff;"><span class="lang-en">About</span><span class="lang-bn">আমাদের সম্পর্কে</span></a>
+      <button id="cartBtn" onclick="toggleCart()" title="View cart">🛒<span id="cartBadge">0</span></button>
+      <select id="lang" class="lang" onchange="setLang(this.value)">
+        <option value="en">EN</option>
+        <option value="bn">বাংলা</option>
+        <option value="hi">हिन्दी</option>
+        <option value="ja">日本語</option>
+        <option value="ru">Русский</option>
+      </select>
+      <button id="signBtn" class="btn" onclick="firebaseSignIn()">Sign in</button>
+      <span id="userBadge" class="small" style="color:#fff;margin-left:8px"></span>
+    
+    </div>
+  </header>
+
+  <main>
+
+    <input id="q" class="search" placeholder="Find products..." oninput="renderProducts()" />
+
+    <!-- Recent orders tracker (top section) -->
+    <section id="recentOrders" style="margin-bottom:20px;padding:16px;background:linear-gradient(135deg,#fff8fe 0%,#fff3f8 100%);border-radius:12px;border:2px solid #ff5aa2;box-shadow:0 4px 12px rgba(255,90,162,0.15)">
+      <h3 style="margin:0 0 12px 0;color:#ff5aa2;font-size:16px">📦 Your Order Status</h3>
+      <div id="recentOrdersList"></div>
+    </section>
+
+    <section id="cartSection" style="display:none;margin-bottom:12px;padding:12px;background:#fff8fe;border-radius:12px;border:2px solid #ff5aa2">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <h3 style="margin:0;color:#ff5aa2">🛒 My Cart</h3>
+        <button type="button" onclick="toggleCart()" style="background:#eee;border:0;padding:6px 12px;border-radius:8px;cursor:pointer">Hide</button>
+      </div>
+      <div id="cartItems" style="display:grid;gap:8px"></div>
+    </section>
+
+    <section id="products" class="grid" aria-live="polite"></section>
+
+    <!-- Image viewer modal -->
+    <div id="imageViewerBackdrop" class="modal-backdrop"></div>
+    <div id="imageViewer">
+      <img id="imageViewerImg" src="" alt="product"/>
+      <div class="viewer-content">
+        <div class="viewer-title" id="viewerTitle"></div>
+        <div class="viewer-price" id="viewerPrice"></div>
+        <div class="viewer-details" id="viewerDetails"></div>
+        <div class="small" id="viewerFrom"></div>
+        <div class="viewer-actions">
+          <button class="btn" id="viewerBuyBtn" onclick="closeImageViewerAndBuy()">Buy Now</button>
+          <button class="btn" onclick="hideImageViewer()" style="background:#eee;color:#ff4d88">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order panel modal (hidden until user selects product) -->
+    <div id="modalBack" class="modal-backdrop" style="display:none;position:fixed;left:0;right:0;top:0;bottom:0;background:rgba(0,0,0,0.45);z-index:59"></div>
+    <div id="orderPanel" style="display:none;position:fixed;left:50%;transform:translateX(-50%);top:40px;max-width:540px;max-height:90vh;overflow-y:auto;z-index:60">
+      <div style="background:#fff;border-radius:12px;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,0.35)">
+        <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px;padding-bottom:12px;border-bottom:2px solid #ffe8f5">
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'%3E%3Crect fill='%23ff5aa2' width='44' height='44' rx='10'/%3E%3Ctext x='50%25' y='50%25' font-size='24' font-weight='700' fill='white' text-anchor='middle' dominant-baseline='central'%3EPD%3C/text%3E%3C/svg%3E" style="width:40px;height:40px;border-radius:8px"/>
+          <div>
+            <h3 id="op_title" style="margin:0;color:#ff5aa2">Product Order</h3>
+            <div class="small" style="color:#666">PinkDrop</div>
+          </div>
+        </div>
+        
+        <div style="display:flex;gap:12px;margin-bottom:12px;padding:10px;background:#fff8fe;border-radius:10px">
+          <img id="op_img" src="" alt="product" style="width:80px;height:80px;border-radius:8px;object-fit:cover"/>
+          <div style="flex:1">
+            <div style="font-weight:700;color:#111" id="op_title_detail"></div>
+            <div id="op_details" class="small" style="color:#666;margin-top:4px"></div>
+            <div id="op_price" class="price" style="margin-top:6px"></div>
+          </div>
+        </div>
+
+        <div style="display:grid;gap:8px">
+          <input id="o_name" placeholder="Full name (Gmail required)"/>
+          <input id="o_email" placeholder="Email address" type="email"/>
+          <input id="o_phone" placeholder="Mobile number"/>
+          <input id="o_postal" placeholder="Postal code"/>
+          <input id="o_address" placeholder="Full address"/>
+          
+          <select id="o_country" style="padding:10px;border-radius:8px;border:1px solid #ddd">
+            <option value="">Select Country</option>
+            <option value="UK">🇬🇧 United Kingdom</option>
+            <option value="USA">🇺🇸 United States</option>
+            <option value="BD">🇧🇩 Bangladesh</option>
+            <option value="India">🇮🇳 India</option>
+            <option value="Japan">🇯🇵 Japan</option>
+            <option value="Russia">🇷🇺 Russia</option>
+          </select>
+          
+          <input id="o_qty" placeholder="Quantity" type="number" min="1" value="1"/>
+          <input id="o_size" placeholder="Size (S, M, L, XL, XXL) - Optional"/>
+          
+          <select id="o_currency" onchange="updatePriceForCurrency()" style="padding:10px;border-radius:8px;border:1px solid #ddd">
+            <option value="USD">💵 USD</option>
+            <option value="BDT">৳ BDT</option>
+            <option value="INR">₹ INR</option>
+            <option value="JPY">¥ JPY</option>
+            <option value="RUB">₽ RUB</option>
+            <option value="USDT">🔐 USDT (Crypto)</option>
+          </select>
+          
+          <select id="o_pay" onchange="updatePaymentFields()" style="padding:10px;border-radius:8px;border:1px solid #ddd;font-weight:700;color:#ff5aa2">
+            <option value="cod">💰 Cash on Delivery</option>
+            <option value="bkash">📱 bKash</option>
+            <option value="nagad">📱 Nagad</option>
+            <option value="card">💳 Card Payment</option>
+            <option value="binance">🪙 Binance Pay</option>
+          </select>
+
+          <div id="manualPaymentFields" style="display:none;margin-top:8px;padding:10px;background:#fff3f8;border-radius:8px;border-left:4px solid #ff5aa2">
+            <div class="small" style="color:#666;margin-bottom:8px;font-weight:700">📤 Payment Instructions:</div>
+            <div id="paymentInstructions" class="small" style="color:#555;margin-bottom:8px;line-height:1.6"></div>
+            <input id="o_tx" placeholder="Transaction ID (TxID)"/>
+            
+            <!-- bKash/Nagad specific fields -->
+            <div id="mobilityPaymentFields" style="display:none;margin-top:8px">
+              <input id="o_sender_number" placeholder="Sender Mobile Number (এক্সাক্ট নম্বর)"/>
+              <textarea id="o_payment_ss" placeholder="Screenshot URL or base64 (Paste or upload);" style="padding:8px;border-radius:6px;border:1px solid #ddd;width:100%;height:60px;resize:vertical;margin-top:6px"></textarea>
+            </div>
+          </div>
+
+          <div id="op_price_conv" class="small" style="margin-top:6px;color:#666;font-weight:700;text-align:center;padding:8px;background:#fff8fe;border-radius:8px"></div>
+
+          <div style="display:flex;gap:8px;margin-top:12px">
+            <button class="btn" onclick="placeOrderFromUI()" style="flex:1;font-weight:700">✓ Place Order</button>
+            <button class="btn" onclick="hideOrderPanel()" style="flex:1;background:#eee;color:#ff4d88;font-weight:700">✕ Cancel</button>
+          </div>
+        </div>
+        <small style="color:#999;display:block;margin-top:10px;text-align:center">🔒 Secure checkout • All payments verified by admin</small>
+      </div>
+    </div>
+
+
+  </main>
+
+  <a class="floating-ws" href="https://wa.me/8801609166109" target="_blank" title="Chat on WhatsApp">💬</a>
+  <footer style="padding:18px 12px;text-align:center;color:#666">© PinkDrop — Worldwide • Language and country options available</footer>
+
+  <script>
+    (function(){
+      function showLang(lang){
+        document.querySelectorAll('[class^="lang-"]').forEach(function(el){ el.style.display='none'; });
+        document.querySelectorAll('.lang-'+lang).forEach(function(el){ el.style.display='inline'; });
+      }
+      window.setLang = function(l){
+        showLang(l);
+        document.documentElement.lang = l;
+        var sel = document.getElementById('lang'); if(sel) sel.value = l;
+      };
+      document.addEventListener('DOMContentLoaded', function(){
+        var htmlLang = document.documentElement.lang || 'en';
+        var lang = htmlLang.indexOf('bn')===0 ? 'bn' : 'en';
+        showLang(lang);
+        var sel = document.getElementById('lang'); if(sel) sel.value = lang;
+      });
+    })();
+  </script>
+</body>
+</html>

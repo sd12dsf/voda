@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PinkDrop Admin</title>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script>
+    // Initialize Firebase if config is provided
+    if(window.FIREBASE_CONFIG && window.firebase){
+      try{ firebase.initializeApp(window.FIREBASE_CONFIG); }
+      catch(e){ console.warn('Firebase init warning:',e); }
+    }
+  </script>
+  <script src="app.js" defer></script>
+  <style>
+    body{margin:0;font-family:Inter,system-ui,Arial;background:#fffafc;color:#111}
+    header{background:linear-gradient(90deg,#ff5aa2,#ff77b3);color:#fff;padding:12px;display:flex;justify-content:space-between;align-items:center}
+    .container{padding:12px}
+    .card{background:#fff;border-radius:12px;padding:12px;margin-bottom:12px;box-shadow:0 6px 18px rgba(0,0,0,0.06)}
+    input,select,textarea{width:100%;padding:8px;margin-top:8px;border-radius:8px;border:1px solid #eee}
+    .grid{display:grid;grid-template-columns:1fr;gap:12px}
+    .product-row{display:flex;gap:8px;align-items:center;padding:8px;border-radius:8px}
+    .product-row img{width:56px;height:56px;border-radius:8px;object-fit:cover}
+    .small{font-size:13px;color:#666}
+    .btn{background:#ff5aa2;color:#fff;border:0;padding:8px 12px;border-radius:10px}
+    .danger{background:#ff6b89}
+  </style>
+</head>
+<body>
+  <header>
+    <div style="display:flex;gap:10px;align-items:center">
+      <div style="width:36px;height:36px;background:#fff;border-radius:8px;color:#ff5aa2;display:flex;align-items:center;justify-content:center;font-weight:700">PD</div>
+      <div>
+        <div style="font-weight:700">PinkDrop Admin</div>
+        <div class="small">Manage products — local demo (no server)</div>
+      </div>
+    </div>
+    <div>
+      <button class="btn" onclick="logoutAdmin()">Logout</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <div id="authBox" class="card">
+      <h3>Admin Login</h3>
+      <div class="small">Demo password: <code>admin123</code></div>
+      <input id="adm_pass" placeholder="Enter password" />
+      <button class="btn" onclick="loginAdmin()" style="margin-top:8px">Login</button>
+    </div>
+
+    <div id="adminArea" style="display:none">
+      <div class="card">
+        <h3>Add / Edit Product</h3>
+        <input id="p_id" type="hidden" />
+        <input id="p_name" placeholder="Product name" />
+        <input id="p_price" placeholder="Price (e.g. $12.99)" />
+        <input id="p_img" placeholder="Image URL" />
+        <input id="p_country" placeholder="Origin country (e.g. China)" />
+        <input id="p_link" placeholder="Product URL (optional)" />
+        <input id="p_sizes" placeholder="Available sizes (e.g. XS, S, M, L, XL, XXL)" />
+        <textarea id="p_details" placeholder="Short product details (shown on product card)" style="min-height:80px;margin-top:8px"></textarea>
+        <div class="small">📝 Tip: add color, size, delivery time and an optional product link.</div>
+        <button class="btn" onclick="saveProduct()">💾 Save Product</button>
+      </div>
+
+      <div id="productsList" class="card">
+        <h3>Products</h3>
+        <div id="plist"></div>
+      </div>
+
+      <div class="card">
+        <h3>Orders</h3>
+        <div id="orders"></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Services — PinkDrop</title>
+  <style>
+    :root{--pink:#ff5aa2;--accent:#ff77b3}
+    body{margin:0;padding-top:64px;font-family:Inter,system-ui,Arial;background:#fffafc;color:#111}
+    header{background:linear-gradient(90deg,var(--pink),var(--accent));color:#fff;padding:12px;position:fixed;top:0;left:0;right:0;height:64px;z-index:120;display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;gap:10px;align-items:center}
+    .logo{width:40px;height:40px;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--pink);font-weight:700}
+    .top-controls{display:flex;gap:8px;align-items:center}
+    .nav-box{color:#fff;text-decoration:none;padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.06);display:inline-block}
+    .container{padding:16px}
+
+    /* services content */
+    .policy-section{
+      background:#ffe9f2;
+      padding:36px 16px 84px; /* add extra bottom padding to account for fixed header */
+      text-align:center;
+      font-family:Inter,system-ui;
+    }
+    .policy-title{color:#ff2f92;margin-bottom:18px}
+    .policy-list{list-style:none;padding:0;max-width:420px;margin:0 auto 26px}
+    .policy-list li{background:#fff;margin:8px 0;padding:12px 14px;border-radius:14px;font-size:13px;box-shadow:0 6px 16px rgba(255,105,180,.2)}
+    .wp-buttons{max-width:420px;margin:0 auto 26px}
+    .wp-btn{display:flex;align-items:center;gap:12px;background:#25d366;color:#fff;text-decoration:none;padding:12px 14px;border-radius:16px;margin:10px 0;box-shadow:0 8px 18px rgba(37,211,102,.45);transition:.3s}
+    .wp-btn img{width:24px;height:24px;object-fit:contain;border-radius:4px}
+    .wp-btn:hover{transform:scale(1.04)}
+    .visit-text{font-size:13px;color:#444;margin-bottom:10px}
+    .stay-title{color:#ff2f92;margin-bottom:16px}
+    .stay-social{display:flex;justify-content:center;gap:18px}
+    .stay-icon{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;text-decoration:none;animation:float 3s ease-in-out infinite;box-shadow:0 6px 16px rgba(0,0,0,.2);transition:.3s}
+    .stay-icon:hover{transform:scale(1.2) rotate(8deg);box-shadow:0 0 20px rgba(255,47,146,.8)}
+    .fb{background:#1877f2}.tk{background:#000}.ig{background:linear-gradient(45deg,#f58529,#dd2a7b,#8134af)}
+
+    .anchor-offset{scroll-margin-top:80px}
+
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">PD</div>
+      <div><div class="title">PinkDrop <small style="display:block;font-weight:400">Services</small></div></div>
+    </div>
+    <div class="top-controls">
+      <a href="index.html" class="nav-box">Home</a>
+      <a href="services.html#servicesSection" class="nav-box">Services</a>
+      <a href="about.html" class="nav-box">About</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="servicesSection" class="policy-section anchor-offset">
+
+      <!-- POLICY -->
+      <h3 class="policy-title">
+        <span class="lang-en">Our Trust & Service Policy</span>
+        <span class="lang-bn">আমাদের বিশ্বাস ও সার্ভিস নীতি</span>
+      </h3>
+
+      <ul class="policy-list">
+        <li>
+          <span class="lang-en">Order cancelled = 100% refund</span>
+          <span class="lang-bn">অর্ডার ক্যানসেল হলে ১০০% রিফান্ড</span>
+        </li>
+        <li>
+          <span class="lang-en">Any issue? We take full responsibility</span>
+          <span class="lang-bn">সমস্যা হলে আমরা সম্পূর্ণ দায়িত্ব নেব</span>
+        </li>
+        <li>
+          <span class="lang-en">Support available via WhatsApp only</span>
+          <span class="lang-bn">শুধুমাত্র WhatsApp এর মাধ্যমে সাপোর্ট</span>
+        </li>
+        <li>
+          <span class="lang-en">No fake or duplicate products</span>
+          <span class="lang-bn">কোনো ফেক বা ডুপ্লিকেট প্রোডাক্ট নয়</span>
+        </li>
+      </ul>
+
+      <!-- WHATSAPP BUTTONS -->
+      <div class="wp-buttons">
+        <a href="https://wa.me/8801609166109" class="wp-btn">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg">
+          <div>
+            <strong>+880 1609-166109</strong>
+            <small>Primary Support</small>
+          </div>
+        </a>
+
+        <a href="https://wa.me/8801864820393" class="wp-btn">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg">
+          <div>
+            <strong>+880 1864-820393</strong>
+            <small>Backup Support</small>
+          </div>
+        </a>
+      </div>
+
+      <!-- VISIT TEXT -->
+      <p class="visit-text">
+        <span class="lang-en">To see products and know details, you can visit our main page</span>
+        <span class="lang-bn">প্রোডাক্ট দেখতে ও বিস্তারিত জানতে আমাদের মেইন পেজ ভিজিট করতে পারেন</span>
+      </p>
+
+      <!-- STAY WITH US -->
+      <h3 class="stay-title">
+        <span class="lang-en">Stay With Us</span>
+        <span class="lang-bn">আমাদের সাথে থাকুন</span>
+      </h3>
+
+      <!-- SOCIAL ICONS -->
+      <div class="stay-social">
+        <a class="stay-icon fb social-sound" href="https://facebook.com/YourPage" target="_blank">f</a>
+        <a class="stay-icon tk social-sound" href="https://tiktok.com/@YourProfile" target="_blank">♪</a>
+        <a class="stay-icon ig social-sound" href="https://instagram.com/YourProfile" target="_blank">◎</a>
+      </div>
+
+      <!-- YOUR ORDERS (visible to signed-in users) -->
+      <h3 class="stay-title" style="margin-top:30px">
+        <span class="lang-en">Your Orders</span>
+        <span class="lang-bn">আপনার অর্ডারসমূহ</span>
+      </h3>
+      <div id="userOrders"></div>
+
+    </section>
+
+    <!-- CLICK SOUND -->
+    <audio id="clickSound" src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3"></audio>
+  </main>
+
+  <script>
+    // Language visibility script (matches index behavior)
+    (function(){
+      function showLang(lang){
+        document.querySelectorAll('[class^="lang-"]').forEach(function(el){ el.style.display='none'; });
+        document.querySelectorAll('.lang-'+lang).forEach(function(el){ el.style.display='inline'; });
+      }
+      var htmlLang = document.documentElement.lang || 'en';
+      var lang = htmlLang.indexOf('bn')===0 ? 'bn' : 'en';
+      document.addEventListener('DOMContentLoaded', function(){ showLang(lang); });
+    })();
+
+    /* SOCIAL CLICK SOUND */
+    const sound = document.getElementById('clickSound');
+    document.querySelectorAll('.social-sound').forEach(icon=>{ icon.addEventListener('click',()=>{ sound.currentTime = 0; sound.play(); }); });
+  </script>
+</body>
+</html>
